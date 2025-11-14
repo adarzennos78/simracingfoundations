@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sim Racing Software - Attack the Track</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #05080f;
+            color: #e0e0e0; 
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem; 
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #374151;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo img {
+            height: 2.5rem; 
+        }
+
+        .nav-links {
+            display: none; 
+        }
+
+        .nav-links a {
+            color: #d1d5db; 
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.875rem; 
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-links a.active {
+            color: #ffffff;
+            background-color: #1f2937; 
+        }
+
+        .mobile-menu-button {
+            display: block; 
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger-line {
+            width: 1.5rem; 
+            height: 2px;
+            background-color: #d1d5db; 
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        .hamburger-line:nth-child(2) {
+            margin: 6px 0;
+        }
+
+        .mobile-menu-button.open .hamburger-line:first-child {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .mobile-menu-button.open .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        .mobile-menu-button.open .hamburger-line:last-child {
+            transform: -rotate(45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            display: none; 
+            background-color: #111827; 
+            border-top: 1px solid #1f2937;
+        }
+        
+        .mobile-menu.open {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+        }
+
+        .mobile-menu a:hover {
+            background-color: #1f2937;
+            color: #ffffff;
+        }
+
+        main {
+            padding-top: 70px;
+        }
+
+        
+        .section {
+            padding: 5rem 0;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 3rem;
+        }
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #9ca3af;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+        
+       
+        .software-grid {
+            display: grid;
+            grid-template-columns: 1fr; 
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .software-card {
+            background-color: rgba(17, 24, 39, 0.7); 
+            border: 1px solid #1f2937; 
+            padding: 2rem;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+
+        .software-card:hover {
+            background-color: #1f2937;
+            border-color: #2563eb;
+            transform: translateY(-5px);
+        }
+
+        .software-card h3 {
+            font-size: 1.75rem; 
+            font-weight: 700;
+            color: #60a5fa; 
+            margin: 0 0 0.5rem 0;
+        }
+
+        .software-card .platform-type {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .software-card p {
+            color: #e0e0e0; 
+            margin: 0 0 1rem 0;
+            line-height: 1.6;
+        }
+
+        .software-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0 0 0;
+        }
+
+        .software-card ul li {
+            background-color: #2563eb; 
+            color: #ffffff;
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px; 
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .software-card a {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.5rem 1.5rem;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .software-card a:hover {
+            background-color: #3b82f6;
+        }
+
+        .software-card .platform-info {
+            border-top: 1px solid #374151;
+            padding-top: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        
+        .hero {
+            position: relative;
+            height: 60vh; 
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            opacity: 0.3;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(5, 8, 15, 1) 10%, rgba(5, 8, 15, 0.7) 50%, rgba(5, 8, 15, 0) 100%);
+        }
+
+        .hero-content {
+            padding: 1rem;
+        }
+        
+        .hero-content .hero-logo {
+            width: 150px;
+            margin-bottom: 1rem;
+            display: none; 
+        }
+
+        .hero-content h1 {
+            font-size: 2.25rem; 
+            font-weight: 600;
+            color: #d1d5db;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 0 0 1rem 0;
+        }
+
+        .hero-content p {
+            font-size: 3.5rem; 
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .hero-button {
+            display: none; 
+        }
+        
+
+        
+        .software-image-container {
+            text-align: center;
+            margin: 2rem auto; 
+            max-width: 800px; 
+            background-color: #0b0e14; 
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5); 
+        }
+
+        .software-image-container img {
+            max-width: 100%; 
+            height: auto;
+            border-radius: 5px;
+            opacity: 0.95;
+        }
+       
+        .cta-section {
+            padding: 5rem 0;
+            background-color: #111827;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.25rem; 
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .cta-section p {
+            font-size: 1.125rem; 
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto 2.5rem auto;
+            line-height: 1.6;
+        }
+        
+        .cta-section .cta-button {
+            display: inline-block; 
+            font-size: 1.25rem; 
+            padding: 1rem 2.5rem;
+            background-color: #2563eb; 
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .cta-section .cta-button:hover {
+            background-color: #3b82f6; 
+            transform: scale(1.05);
+        }
+       
+        .footer {
+            border-top: 1px solid #1f2937;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-logo {
+            text-align: center;
+        }
+
+        .footer-logo img {
+            height: 2rem; 
+        }
+
+        .footer-logo p {
+            margin-top: 1rem;
+            font-size: 0.875rem; 
+            color: #6b7280; 
+        }
+        
+        .footer-links {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1.5rem; 
+        }
+
+        .footer-links a {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+        
+
+        
+        @media (min-width: 768px) {
+            
+            .nav-links {
+                display: flex;
+            }
+            .mobile-menu-button {
+                display: none;
+            }
+            .mobile-menu {
+                display: none !important; 
+            }
+
+            .software-grid {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem; 
+            }
+            .hero-content p {
+                font-size: 5.5rem; 
+            }
+
+            .cta-section {
+                padding: 8rem 0;
+            }
+            .cta-section h2 {
+                font-size: 3rem; 
+            }
+            .cta-section p {
+                font-size: 1.25rem; 
+            }
+            
+            .footer-content {
+                flex-direction: row; 
+            }
+            .footer-logo {
+                text-align: left;
+            }
+            .footer-links {
+                margin-top: 0;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .sim-platform-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+       
+        @media (min-width: 640px) {
+            .utility-software-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+    </head>
+<body>
+
+     <header class="header">
+        <nav class="container nav">
+            <a href="#" class="nav-logo">
+                <img src="SRF.jpg" alt="SRF Logo">
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="software.html">Software</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="community.html">Community</a>
+                <a href="motorsports.html">Motorsports</a>
+                <a href="sources.html">Sources</a> <a href="contact.html">Contact</a>
+            </div>
+
+            <button id="mobile-menu-button" class="mobile-menu-button">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+        </nav>
+        
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="index.html" class="active">Home</a>
+            <a href="software.html">Software</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="community.html">Community</a>
+            <a href="motorsports.html">Motorsports</a> 
+            <a href="sources.html">Sources</a> <a href="contact.html">Contact</a>
+        </div>
+    </header>
+
+
+
+
+    <main>
+
+        <section class="hero">
+            <div class="hero-background">
+                <img src="software.jpg" alt="In-game sim racing screenshot">
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <h1>The Virtual Garage</h1>
+                <p>Essential Sim Racing Software</p>
+            </div>
+        </section>
+
+        <section id="sim-platforms" class="section">
+            <div class="container">
+                <h2 class="section-title">🏁 Core Sim Platforms</h2>
+                <p class="section-subtitle">The bedrock of your virtual racing career. Each platform offers a unique focus on realism, content, and community.</p>
+
+                <div class="software-grid sim-platform-grid">
+                    
+                    <div class="software-card">
+                        <h3>iRacing</h3>
+                        <span class="platform-type">Subscription-Based Sim</span>
+                        <p>The definitive platform for competitive online racing. iRacing features a sophisticated netcode, laser-scanned tracks, and a robust safety rating system that promotes clean, fair racing.</p>
+                        
+                        <div class="platform-info">
+                            **Focus:** Competitive/Esports, Oval & Road, Safety Rating.
+                        </div>
+                        <a href="https://www.iracing.com/" target="_blank">Visit iRacing</a>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Assetto Corsa Competizione</h3>
+                        <span class="platform-type">Dedicated GT3/GT4 Sim</span>
+                        <p>The official game of the GT World Challenge, ACC offers unparalleled realism for GT racing. Its physics and force feedback are highly acclaimed, especially for endurance and sprint racing.</p>
+                        
+                        <div class="platform-info">
+                            **Focus:** GT3/GT4, Advanced Tire Model, High Fidelity Graphics.
+                        </div>
+                        <a href="https://acc.505games.com/" target="_blank">Visit ACC</a>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Assetto Corsa</h3>
+                        <span class="platform-type">Modding King & Versatile Sim</span>
+                        <p>The original AC is beloved for its exceptional modding community, allowing for thousands of tracks and cars. A fantastic choice for casual fun, drift, open-world cruising, and competitive racing.</p>
+                        
+                        <div class="platform-info">
+                            **Focus:** Massive Modding Scene, Wide Variety of Cars/Tracks, Physics Engine.
+                        </div>
+                        <a href="https://assettocorsa.net/ac/" target="_blank">Visit Assetto Corsa</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <hr class="container" style="border-color:#374151;">
+        
+        <div class="container">
+            <div class="software-image-container">
+                <img src="software.jpg" alt="Logos of popular Sim Racing platforms">
+            </div>
+        </div>
+        <section id="key-software" class="section">
+            <div class="container">
+                <h2 class="section-title">🔧 Essential Utility Software</h2>
+                <p class="section-subtitle">Beyond the racing sim itself, these tools are crucial for optimal performance, detailed setup, and in-depth data analysis.</p>
+
+                <div class="software-grid utility-software-grid">
+                    
+                    <div class="software-card">
+                        <h3>SimHub</h3>
+                        <span class="platform-type">Dashboards & Hardware Integration</span>
+                        <p>An indispensable tool for integrating physical hardware. Use it for custom dashboards, tactile transducers (shakers), RGB LEDs, and controlling external screens with in-game data.</p>
+                        
+                        <ul>
+                            <li>Dashboard</li>
+                            <li>Tactile Feedback</li>
+                            <li>Hardware Control</li>
+                        </ul>
+                        <a href="https://www.simhubdash.com/" target="_blank">Get SimHub</a>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>MoTeC i2 Pro</h3>
+                        <span class="platform-type">Telemetry Analysis Tool</span>
+                        <p>The industry standard for real-world motorsports data analysis, used by many top sim racers. It allows you to analyze lap traces, pedal inputs, suspension, and tire data to find lap time.</p>
+                        
+                        <ul>
+                            <li>Data Analysis</li>
+                            <li>Setup Refinement</li>
+                            <li>Lap Comparison</li>
+                        </ul>
+                        <a href="https://www.motec.com.au/i2software/i2download/" target="_blank">Download MoTeC i2</a>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Crew Chief</h3>
+                        <span class="platform-type">Voice Spotter & Engineer</span>
+                        <p>Replaces the in-game spotter with a dynamic, human-sounding voice. It provides useful race information, lap times, pit stop reminders, and car damage reports in real-time.</p>
+                        
+                        <ul>
+                            <li>Spotting</li>
+                            <li>Race Strategy</li>
+                            <li>Immersive Sound</li>
+                        </ul>
+                        <a href="https://thecrewchief.org/" target="_blank">Get Crew Chief</a>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Content Manager & CSP</h3>
+                        <span class="platform-type">Assetto Corsa Management & Graphics</span>
+                        <p>A must-have launcher and utility for Assetto Corsa. Content Manager simplifies mod installation, and Custom Shaders Patch (CSP) is essential for massively improved graphics and weather effects.</p>
+                        
+                        <ul>
+                            <li>Mod Management</li>
+                            <li>Graphics Enhancement</li>
+                            <li>Custom Weather</li>
+                        </ul>
+                        <a href="https://assettocorsa.club/content-manager.html" target="_blank">Get Content Manager</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to Fine-Tune Your Rig?</h2>
+                <p>The right software is only half the battle. Explore the hardware that brings these simulations to life, from entry-level wheels to full motion rigs.</p>
+                <a href="hardware.html" class="cta-button">
+                    Explore Hardware
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <img src="SRF.jpg" alt="SRF Logo">
+                <p>&copy; 2025 Sim Racing Foundations. All Rights Reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="software.html">Software</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="community.html">Community</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        document.getElementById('mobile-menu-button').onclick = function() {
+            this.classList.toggle('open');
+            document.getElementById('mobile-menu').classList.toggle('open');
+        };
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('#mobile-menu a').forEach(item => {
+            item.addEventListener('click', () => {
+                document.getElementById('mobile-menu-button').classList.remove('open');
+                document.getElementById('mobile-menu').classList.remove('open');
+            });
+        });
+    </script>
+
+</body>
+</html>

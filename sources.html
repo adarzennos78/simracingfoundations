@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sources & Credits - Attack the Track</title>
+    <style>
+        /* --- General and Navigation Styles (Copied from previous pages) --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #05080f;
+            color: #e0e0e0; 
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem; 
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #374151;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo img {
+            height: 2.5rem; 
+        }
+
+        .nav-links {
+            display: none; 
+        }
+
+        .nav-links a {
+            color: #d1d5db; 
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.875rem; 
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-links a.active {
+            color: #ffffff;
+            background-color: #1f2937; /* gray-800 */
+        }
+
+        .mobile-menu-button {
+            display: block; 
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger-line {
+            width: 1.5rem; 
+            height: 2px;
+            background-color: #d1d5db; 
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        .hamburger-line:nth-child(2) {
+            margin: 6px 0;
+        }
+
+        .mobile-menu-button.open .hamburger-line:first-child {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .mobile-menu-button.open .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        .mobile-menu-button.open .hamburger-line:last-child {
+            transform: -rotate(45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            display: none; 
+            background-color: #111827; 
+            border-top: 1px solid #1f2937;
+        }
+        
+        .mobile-menu.open {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+        }
+
+        .mobile-menu a:hover {
+            background-color: #1f2937;
+            color: #ffffff;
+        }
+
+        main {
+            padding-top: 70px;
+        }
+
+        .section {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 3rem;
+        }
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #9ca3af;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+        
+        /* Hero Styling (Adjusted for Sources Page) */
+        .hero {
+            position: relative;
+            height: 30vh; /* Shorter hero for a less dramatic page */
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            opacity: 0.3;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(5, 8, 15, 1) 10%, rgba(5, 8, 15, 0.7) 50%, rgba(5, 8, 15, 0) 100%);
+        }
+        
+        /* --- Sources Page Specific Styles --- */
+        .source-category {
+            background-color: #111827;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: left;
+            margin-bottom: 2rem;
+            border: 1px solid #1f2937;
+        }
+
+        .source-category h3 {
+            font-size: 1.5rem;
+            color: #60a5fa;
+            border-bottom: 1px solid #374151;
+            padding-bottom: 0.75rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .source-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .source-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px dashed #1f2937;
+            font-size: 1rem;
+            color: #d1d5db;
+        }
+        
+        .source-list li:last-child {
+            border-bottom: none;
+        }
+
+        .source-list li strong {
+            color: #ffffff;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .source-list li a {
+            color: #2563eb;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .source-list li a:hover {
+            color: #3b82f6;
+        }
+        
+        /* Footer Styling (copied) */
+        .footer {
+            border-top: 1px solid #1f2937;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-logo {
+            text-align: center;
+        }
+
+        .footer-logo img {
+            height: 2rem; 
+        }
+
+        .footer-logo p {
+            margin-top: 1rem;
+            font-size: 0.875rem; 
+            color: #6b7280; 
+        }
+        
+        .footer-links {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1.5rem; 
+        }
+
+        .footer-links a {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+        /* End Footer Styling */
+
+
+        /* --- Media Queries --- */
+        @media (min-width: 768px) {
+            
+            .nav-links {
+                display: flex;
+            }
+            .mobile-menu-button {
+                display: none;
+            }
+            .mobile-menu {
+                display: none !important; 
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem; 
+            }
+            .hero-content p {
+                font-size: 4rem; 
+            }
+
+            .source-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .footer-content {
+                flex-direction: row; 
+            }
+            .footer-logo {
+                text-align: left;
+            }
+            .footer-links {
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+     <header class="header">
+        <nav class="container nav">
+            <a href="#" class="nav-logo">
+                <img src="SRF.jpg" alt="SRF Logo">
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="software.html">Software</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="community.html">Community</a>
+                <a href="motorsports.html">Motorsports</a>
+                <a href="sources.html">Sources</a> <a href="contact.html">Contact</a>
+            </div>
+
+            <button id="mobile-menu-button" class="mobile-menu-button">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+        </nav>
+        
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="index.html" class="active">Home</a>
+            <a href="software.html">Software</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="community.html">Community</a>
+            <a href="motorsports.html">Motorsports</a> 
+            <a href="sources.html">Sources</a> <a href="contact.html">Contact</a>
+        </div>
+    </header>
+
+
+
+
+    <main>
+
+        <section class="hero">
+            <div class="hero-background">
+                <img src="sources.jpg" alt="Documents and data graphics">
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <h1>Data Integrity</h1>
+                <p>Sources & Credits</p>
+            </div>
+        </section>
+
+        <section id="sources-content" class="section">
+            <div class="container">
+                <p class="section-subtitle" style="margin-bottom: 2rem;">Transparency is key. This page details the sources used for research, factual claims, and third-party content cited throughout Sim Racing Foundations.</p>
+                
+                <div class="source-grid">
+                    
+                    <div class="source-category">
+                        <h3>Sim Racing Platforms & Software</h3>
+                        <ul class="source-list">
+                            <li>
+                                <strong>iRacing.com Motorsport Simulations</strong>
+                                Official website and documentation for iRacing competitive platform.
+                                <a href="https://www.iracing.com/" target="_blank">iRacing Link</a>
+                            </li>
+                            <li>
+                                <strong>Kunos Simulazioni / Assetto Corsa Competizione (ACC)</strong>
+                                Official website for ACC features and physics details.
+                                <a href="https://acc.505games.com/" target="_blank">ACC Link</a>
+                            </li>
+                            <li>
+                                <strong>SimHub / The Crew Chief / MoTeC</strong>
+                                Software features and functionality gathered from official documentation.
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="source-category">
+                        <h3>Hardware Manufacturers</h3>
+                        <ul class="source-list">
+                            <li>
+                                <strong>Fanatec (Endor AG)</strong>
+                                Official product lines, specifications, and pricing used for budget tiers.
+                                <a href="https://fanatec.com/" target="_blank">Fanatec Link</a>
+                            </li>
+                            <li>
+                                <strong>Moza Racing (Guangzhou Moza Technology Co.)</strong>
+                                Official product lines and Direct Drive specifications.
+                                <a href="https://mozaracing.com/" target="_blank">Moza Link</a>
+                            </li>
+                            <li>
+                                <strong>Simagic</strong>
+                                Official product lines and Direct Drive specifications.
+                                <a href="https://simagic.com/" target="_blank">Simagic Link</a>
+                            </li>
+                            <li>
+                                <strong>Logitech / Thrustmaster</strong>
+                                Entry-level wheel and pedal specifications.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="source-category">
+                        <h3>Image & Visual Content</h3>
+                        <ul class="source-list">
+                            <li>
+                                <strong>Placeholder Images: placehold.co</strong>
+                                Background images in hero sections are temporary placeholders and should be replaced with licensed or original photography.
+                                <a href="https://placehold.co" target="_blank">Placeholder Service</a>
+                            </li>
+                            <li>
+                                <strong>Custom Logos & Graphics (e.g., software.jpg, hardware.jpg)</strong>
+                                Generated graphics are conceptual representations and not official company assets.
+                            </li>
+                            <li>
+                                <strong>SRF.jpg (Sim Racing Foundations Logo)</strong>
+                                Assumed to be original content owned by the site creator.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="source-category">
+                        <h3>Motorsports & Community</h3>
+                        <ul class="source-list">
+                            <li>
+                                <strong>Real Motorsports Series</strong>
+                                General factual information on GT World Challenge, F1, and NASCAR.
+                            </li>
+                            <li>
+                                <strong>Community Discussion Boards (e.g., Reddit)</strong>
+                                References to general community platforms for support and discussion.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <img src="SRF.jpg" alt="SRF Logo">
+                <p>&copy; 2025 Sim Racing Foundations. All Rights Reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="software.html">Software</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="community.html">Community</a>
+                <a href="realmotorsports.html">Real Racing</a>
+                <a href="sources.html">Sources</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('mobile-menu-button').onclick = function() {
+            this.classList.toggle('open');
+            document.getElementById('mobile-menu').classList.toggle('open');
+        };
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('#mobile-menu a').forEach(item => {
+            item.addEventListener('click', () => {
+                document.getElementById('mobile-menu-button').classList.remove('open');
+                document.getElementById('mobile-menu').classList.remove('open');
+            });
+        });
+    </script>
+
+</body>
+</html>

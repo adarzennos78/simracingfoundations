@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sim Racing Community - Attack the Track</title>
+    <style>
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #05080f;
+            color: #e0e0e0; 
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem; 
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #374151;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo img {
+            height: 2.5rem; 
+        }
+
+        .nav-links {
+            display: none; 
+        }
+
+        .nav-links a {
+            color: #d1d5db; 
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.875rem; 
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-links a.active {
+            color: #ffffff;
+            background-color: #1f2937; 
+        }
+
+        .mobile-menu-button {
+            display: block; 
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger-line {
+            width: 1.5rem; 
+            height: 2px;
+            background-color: #d1d5db; 
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        .hamburger-line:nth-child(2) {
+            margin: 6px 0;
+        }
+
+        .mobile-menu-button.open .hamburger-line:first-child {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .mobile-menu-button.open .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        .mobile-menu-button.open .hamburger-line:last-child {
+            transform: -rotate(45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            display: none; 
+            background-color: #111827; 
+            border-top: 1px solid #1f2937;
+        }
+        
+        .mobile-menu.open {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+        }
+
+        .mobile-menu a:hover {
+            background-color: #1f2937;
+            color: #ffffff;
+        }
+
+        main {
+            padding-top: 70px;
+        }
+
+        .section {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 3rem;
+        }
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #9ca3af;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+        
+        
+        .hero {
+            position: relative;
+            height: 60vh; 
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            opacity: 0.3;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(5, 8, 15, 1) 10%, rgba(5, 8, 15, 0.7) 50%, rgba(5, 8, 15, 0) 100%);
+        }
+
+        .hero-content {
+            padding: 1rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.25rem; 
+            font-weight: 600;
+            color: #d1d5db;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 0 0 1rem 0;
+        }
+
+        .hero-content p {
+            font-size: 3.5rem; 
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            line-height: 1.2;
+            margin: 0;
+        }
+        
+
+       
+
+        
+        .community-image-container {
+            text-align: center;
+            margin: 2rem auto; 
+            max-width: 700px; 
+            padding: 1.5rem;
+            border-radius: 10px;
+            background-color: #0b0e14;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5); 
+        }
+
+        .community-image-container img {
+            max-width: 100%; 
+            height: auto;
+            border-radius: 5px;
+            opacity: 0.95;
+        }
+
+
+        .community-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .community-card {
+            background-color: rgba(17, 24, 39, 0.7); 
+            border: 1px solid #1f2937; 
+            padding: 2rem;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+
+        .community-card:hover {
+            background-color: #1f2937;
+            border-color: #3b82f6; 
+            transform: translateY(-5px);
+        }
+
+        .community-card h3 {
+            font-size: 1.75rem; 
+            font-weight: 700;
+            color: #60a5fa; 
+            margin: 0 0 0.5rem 0;
+        }
+
+        .community-card .platform-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .community-card p {
+            color: #e0e0e0; 
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .community-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .community-card ul li {
+            background-color: #1f2937; 
+            color: #ffffff;
+            padding: 0.3rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+
+        .community-card a {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .community-card a:hover {
+            background-color: #3b82f6;
+        }
+
+        
+        .forum-callout {
+            background-color: #111827;
+            padding: 3rem;
+            border-radius: 16px;
+            margin-top: 5rem;
+            text-align: center;
+            border: 1px solid #1f2937;
+        }
+
+        .forum-callout h3 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-top: 0;
+        }
+
+        
+        .cta-section {
+            padding: 5rem 0;
+            background-color: #111827;
+            text-align: center;
+            border-top: 1px solid #1f2937;
+        }
+        .cta-section h2 {
+            font-size: 2.25rem; 
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 1.5rem 0;
+        }
+        .cta-section p {
+            font-size: 1.125rem; 
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto 2.5rem auto;
+            line-height: 1.6;
+        }
+        .cta-section .cta-button {
+            display: inline-block; 
+            font-size: 1.25rem; 
+            padding: 1rem 2.5rem;
+            background-color: #2563eb; 
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+        .cta-section .cta-button:hover {
+            background-color: #3b82f6; 
+            transform: scale(1.05);
+        }
+        
+
+        
+        .footer {
+            border-top: 1px solid #1f2937;
+            padding: 3rem 0;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .footer-logo {
+            text-align: center;
+        }
+        .footer-logo img {
+            height: 2rem; 
+        }
+        .footer-logo p {
+            margin-top: 1rem;
+            font-size: 0.875rem; 
+            color: #6b7280; 
+        }
+        .footer-links {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1.5rem; 
+        }
+        .footer-links a {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+        
+
+
+        
+        @media (min-width: 768px) {
+            
+            .nav-links {
+                display: flex;
+            }
+            .mobile-menu-button {
+                display: none;
+            }
+            .mobile-menu {
+                display: none !important; 
+            }
+
+            .community-grid {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem; 
+            }
+            .hero-content p {
+                font-size: 5.5rem; 
+            }
+
+            .cta-section {
+                padding: 8rem 0;
+            }
+            .cta-section h2 {
+                font-size: 3rem; 
+            }
+            .cta-section p {
+                font-size: 1.25rem; 
+            }
+            
+            .footer-content {
+                flex-direction: row; 
+            }
+            .footer-logo {
+                text-align: left;
+            }
+            .footer-links {
+                margin-top: 0;
+            }
+        }
+        @media (min-width: 1024px) {
+            .community-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+    </head>
+<body>
+
+    <header class="header">
+        <nav class="container nav">
+            <a href="#" class="nav-logo">
+                <img src="SRF.jpg" alt="SRF Logo">
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="software.html">Software</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="community.html">Community</a>
+                <a href="motorsports.html">Motorsports</a>
+                <a href="sources.html">Sources</a> <a href="contact.html">Contact</a>
+            </div>
+
+            <button id="mobile-menu-button" class="mobile-menu-button">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+        </nav>
+        
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="index.html" class="active">Home</a>
+            <a href="software.html">Software</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="community.html">Community</a>
+            <a href="motorsports.html">Motorsports</a> 
+            <a href="sources.html">Sources</a> <a href="contact.html">Contact</a>
+        </div>
+    </header>
+
+
+
+
+
+    <main>
+
+        <section class="hero">
+            <div class="hero-background">
+                <img src="community.jpg" alt="A headset and gaming environment">
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <h1>Join the Grid</h1>
+                <p>Sim Racing Community & Leagues</p>
+            </div>
+        </section>
+
+        <section id="leagues" class="section">
+            <div class="container">
+                <h2 class="section-title">🏆 Find Your League</h2>
+                <p class="section-subtitle">Competitive leagues offer structured, clean racing far beyond public lobbies. They are the best way to test your skills over a full season.</p>
+
+                <div class="community-grid">
+                    
+                    <div class="community-card">
+                        <h3>iRacing World</h3>
+                        <span class="platform-label">Official & Third-Party Leagues</span>
+                        <p>The iRacing platform has a built-in seasonal structure, but many external communities run their own leagues for specific car classes (F1, NASCAR, Endurance).</p>
+                        
+                        <ul>
+                            <li>Official Series</li>
+                            <li>Weekly Race Events</li>
+                            <li>Team Endurance</li>
+                        </ul>
+                        <a href="https://www.iracing.com/leagues/" target="_blank">Search iRacing Leagues</a>
+                    </div>
+                    
+                    <div class="community-card">
+                        <h3>GT3/GT4 Challenge</h3>
+                        <span class="platform-label">Assetto Corsa Competizione</span>
+                        <p>Due to its focus, ACC is home to highly realistic GT endurance and sprint leagues. Find communities that host events mimicking real-world schedules.</p>
+                        
+                        <ul>
+                            <li>SRO Series Style</li>
+                            <li>Fixed Setup Races</li>
+                            <li>Driver Rating Focused</li>
+                        </ul>
+                        <a href="#" onclick="alert('Popular ACC leagues are often found via Discord or Sim Grid.')">Find ACC Leagues</a>
+                    </div>
+                    
+                    <div class="community-card">
+                        <h3>Sim Racing Hubs</h3>
+                        <span class="platform-label">Multi-Platform Organizers</span>
+                        <p>Look for dedicated league organizers that run championships across multiple platforms like Assetto Corsa, rFactor 2, and F1 games.</p>
+                        
+                        <ul>
+                            <li>Cross-Platform</li>
+                            <li>All Skill Levels</li>
+                            <li>Structured Rules</li>
+                        </ul>
+                        <a href="#" onclick="alert('Try searching SimGrid or specific platform forums for league listings.')">General League Finder</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="community-image-container">
+                <img src="community.jpg" alt="Abstract sim racing community and communication visuals"> 
+            </div>
+        </div>
+        <hr class="container" style="border-color:#374151;">
+
+        <section id="discussion" class="section">
+            <div class="container">
+                <h2 class="section-title">💬 Discord & Discussion</h2>
+                <p class="section-subtitle">Get real-time help, share your favorite clips, find a teammate, or just chat with other racers in the most popular digital hangouts.</p>
+
+                <div class="community-grid">
+                    
+                    <div class="community-card">
+                        <h3>Reddit & Forums</h3>
+                        <span class="platform-label">Q&A and Setup Sharing</span>
+                        <p>The **r/simracing** subreddit is a massive resource for reviews, news, troubleshooting, and sharing rig pictures. The official simulator forums are great for in-depth technical discussions.</p>
+                        
+                        <ul>
+                            <li>Hardware Reviews</li>
+                            <li>Sim Setup Advice</li>
+                            <li>General Discussion</li>
+                        </ul>
+                        <a href="https://www.reddit.com/r/simracing/" target="_blank">Visit r/simracing</a>
+                    </div>
+                    
+                    <div class="community-card">
+                        <h3>Hardware Support Servers</h3>
+                        <span class="platform-label">Manufacturer Discords</span>
+                        <p>Most major hardware companies (Fanatec, Moza, Simagic) host official or community Discord servers. They are invaluable for firmware updates, setup tips, and warranty questions.</p>
+                        
+                        <ul>
+                            <li>Direct Drive Support</li>
+                            <li>Pedal Calibration</li>
+                            <li>Firmware Updates</li>
+                        </ul>
+                        <a href="#" onclick="alert('Find Discord links on the respective company websites (e.g., Fanatec, Moza).')">Find Hardware Discords</a>
+                    </div>
+                    
+                    <div class="community-card">
+                        <h3>Streamer Communities</h3>
+                        <span class="platform-label">Live Content & Casual Racing</span>
+                        <p>Follow your favorite sim racing YouTubers and Twitch streamers. Many host community nights and events for their viewers, offering a fun, casual environment.</p>
+                        
+                        <ul>
+                            <li>Casual Fun</li>
+                            <li>Community Race Nights</li>
+                            <li>Live Feedback</li>
+                        </ul>
+                        <a href="https://www.youtube.com/results?search_query=sim+racing+streamers" target="_blank">Find Sim Racing Streamers</a>
+                    </div>
+                </div>
+
+                <div class="forum-callout">
+                    <h3>📢 Join Our Discord!</h3>
+                    <p>Don't just lurk—introduce yourself! Get direct help from the Sim Racing Foundations team and other members right now.</p>
+                    <a href="contact.html" class="cta-button" style="background-color: #5865F2;">
+                        Join the SRF Community
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Got Questions for the Team?</h2>
+                <p>Whether you need technical advice, have a suggestion for the website, or want to discuss a potential partnership, we're here to help.</p>
+                <a href="contact.html" class="cta-button">
+                    Contact Us Today
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <img src="SRF.jpg" alt="SRF Logo">
+                <p>&copy; 2025 Sim Racing Foundations. All Rights Reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="software.html">Software</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="community.html">Community</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('mobile-menu-button').onclick = function() {
+            this.classList.toggle('open');
+            document.getElementById('mobile-menu').classList.toggle('open');
+        };
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('#mobile-menu a').forEach(item => {
+            item.addEventListener('click', () => {
+                document.getElementById('mobile-menu-button').classList.remove('open');
+                document.getElementById('mobile-menu').classList.remove('open');
+            });
+        });
+    </script>
+
+</body>
+</html>

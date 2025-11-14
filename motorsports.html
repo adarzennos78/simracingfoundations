@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Motorsports - Attack the Track</title>
+    <style>
+               body {
+            font-family: 'Inter', sans-serif;
+            background-color: #05080f;
+            color: #e0e0e0; 
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem; 
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #374151;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo img {
+            height: 2.5rem; 
+        }
+
+        .nav-links {
+            display: none; 
+        }
+
+        .nav-links a {
+            color: #d1d5db; 
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.875rem; 
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-links a.active {
+            color: #ffffff;
+            background-color: #1f2937; /* gray-800 */
+        }
+
+        .mobile-menu-button {
+            display: block; 
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger-line {
+            width: 1.5rem; 
+            height: 2px;
+            background-color: #d1d5db; 
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        .hamburger-line:nth-child(2) {
+            margin: 6px 0;
+        }
+
+        .mobile-menu-button.open .hamburger-line:first-child {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .mobile-menu-button.open .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        .mobile-menu-button.open .hamburger-line:last-child {
+            transform: -rotate(45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            display: none; 
+            background-color: #111827; 
+            border-top: 1px solid #1f2937;
+        }
+        
+        .mobile-menu.open {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+        }
+
+        .mobile-menu a:hover {
+            background-color: #1f2937;
+            color: #ffffff;
+        }
+
+        main {
+            padding-top: 70px;
+        }
+
+        .section {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 3rem;
+        }
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #9ca3af;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+        
+        /* Hero Styling */
+        .hero {
+            position: relative;
+            height: 60vh; 
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            opacity: 0.4; /* Slightly more opacity for real-world images */
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(5, 8, 15, 1) 10%, rgba(5, 8, 15, 0.7) 50%, rgba(5, 8, 15, 0) 100%);
+        }
+
+        .hero-content {
+            padding: 1rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.25rem; 
+            font-weight: 600;
+            color: #d1d5db;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 0 0 1rem 0;
+        }
+
+        .hero-content p {
+            font-size: 3.5rem; 
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            line-height: 1.2;
+            margin: 0;
+        }
+        /* End Hero Styling */
+
+        /* --- New Real Motorsports Content Styles --- */
+
+        .motorsport-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .motorsport-card {
+            background-color: rgba(17, 24, 39, 0.7); 
+            border: 1px solid #1f2937; 
+            padding: 2rem;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+
+        .motorsport-card:hover {
+            background-color: #1f2937;
+            border-color: #60a5fa;
+            transform: translateY(-5px);
+        }
+
+        .motorsport-card h3 {
+            font-size: 1.75rem; 
+            font-weight: 700;
+            color: #ffffff; 
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .motorsport-card .category {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+            display: block;
+            text-transform: uppercase;
+        }
+        
+        .motorsport-card p {
+            color: #d1d5db; 
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .motorsport-card a {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .motorsport-card a:hover {
+            background-color: #3b82f6;
+        }
+        
+        .sim-to-real-feature {
+            background-color: #111827;
+            padding: 4rem 2rem;
+            border-radius: 16px;
+            margin-top: 5rem;
+            text-align: center;
+            border: 2px solid #2563eb;
+        }
+        
+        .sim-to-real-feature h3 {
+            font-size: 2.25rem;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        
+        /* CTA Section Styling (copied) */
+        .cta-section {
+            padding: 5rem 0;
+            background-color: #111827;
+            text-align: center;
+            border-top: 1px solid #1f2937;
+        }
+        .cta-section h2 {
+            font-size: 2.25rem; 
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 1.5rem 0;
+        }
+        .cta-section p {
+            font-size: 1.125rem; 
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto 2.5rem auto;
+            line-height: 1.6;
+        }
+        .cta-section .cta-button {
+            display: inline-block; 
+            font-size: 1.25rem; 
+            padding: 1rem 2.5rem;
+            background-color: #2563eb; 
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+        .cta-section .cta-button:hover {
+            background-color: #3b82f6; 
+            transform: scale(1.05);
+        }
+        /* End CTA Section Styling */
+
+        /* Footer Styling (copied) */
+        .footer {
+            border-top: 1px solid #1f2937;
+            padding: 3rem 0;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .footer-logo {
+            text-align: center;
+        }
+        .footer-logo img {
+            height: 2rem; 
+        }
+        .footer-logo p {
+            margin-top: 1rem;
+            font-size: 0.875rem; 
+            color: #6b7280; 
+        }
+        .footer-links {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1.5rem; 
+        }
+        .footer-links a {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+        /* End Footer Styling */
+
+
+        /* --- Media Queries --- */
+        @media (min-width: 768px) {
+            
+            .nav-links {
+                display: flex;
+            }
+            .mobile-menu-button {
+                display: none;
+            }
+            .mobile-menu {
+                display: none !important; 
+            }
+
+            .motorsport-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem; 
+            }
+            .hero-content p {
+                font-size: 5.5rem; 
+            }
+
+            .cta-section {
+                padding: 8rem 0;
+            }
+            .cta-section h2 {
+                font-size: 3rem; 
+            }
+            .cta-section p {
+                font-size: 1.25rem; 
+            }
+            
+            .footer-content {
+                flex-direction: row; 
+            }
+            .footer-logo {
+                text-align: left;
+            }
+            .footer-links {
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+      <header class="header">
+        <nav class="container nav">
+            <a href="#" class="nav-logo">
+                <img src="SRF.jpg" alt="SRF Logo">
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="software.html">Software</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="community.html">Community</a>
+                <a href="motorsports.html">Motorsports</a>
+                <a href="sources.html">Sources</a> <a href="contact.html">Contact</a>
+            </div>
+
+            <button id="mobile-menu-button" class="mobile-menu-button">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+        </nav>
+        
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="index.html" class="active">Home</a>
+            <a href="software.html">Software</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="community.html">Community</a>
+            <a href="motorsports.html">Motorsports</a> 
+            <a href="sources.html">Sources</a> <a href="contact.html">Contact</a>
+        </div>
+    </header>
+
+
+
+
+    <main>
+
+        <section class="hero">
+            <div class="hero-background">
+                <img src="porsche.jpg" alt="A real race car speeding around a corner">
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <h1>Beyond the Screen</h1>
+                <p>Sim Racing's Connection to Reality</p>
+            </div>
+        </section>
+
+        <section id="connection" class="section">
+            <div class="container">
+                <h2 class="section-title">🔗 The Sim-to-Real Pipeline</h2>
+                <p class="section-subtitle">Sim racing is no longer just a game—it's a proven training ground. From track familiarization to fine-tuning racing lines, the skills gained virtually transfer directly to the asphalt.</p>
+
+                <div class="motorsport-grid">
+                    
+                    <div class="motorsport-card">
+                        <h3>Driver Training</h3>
+                        <span class="category">Skill Transfer</span>
+                        <p>Real-world drivers, from karting enthusiasts to F1 professionals, use simulators to maintain proficiency and learn new tracks without tire wear or fuel costs.</p>
+                        <a href="#pro-drivers">Read Success Stories</a>
+                    </div>
+                    
+                    <div class="motorsport-card">
+                        <h3>Setup & Data Analysis</h3>
+                        <span class="category">Engineering Practice</span>
+                        <p>Teams use simulator data, often exporting telemetry to MoTeC, to test car setups and validate engineering theories before hitting the physical track.</p>
+                        <a href="software.html#key-software">Explore Data Tools</a>
+                    </div>
+                    
+                    <div class="motorsport-card">
+                        <h3>Track Familiarization</h3>
+                        <span class="category">Preparation</span>
+                        <p>Mastering a track layout, apexes, and braking zones virtually gives real drivers a massive head start when they arrive at the circuit for the first time.</p>
+                        <a href="#circuits">View Laser Scanned Tracks</a>
+                    </div>
+                </div>
+
+                <div class="sim-to-real-feature">
+                    <h3>The Next Step: Track Days</h3>
+                    <p style="color:#d1d5db;">Ready to feel the G-forces? We recommend starting with local track day events to safely apply your sim racing knowledge in a real car.</p>
+                    <a href="contact.html" class="cta-button">Find a Local Track Day</a>
+                </div>
+            </div>
+        </section>
+        
+        <hr class="container" style="border-color:#374151;">
+
+        <section id="featured-series" class="section">
+            <div class="container">
+                <h2 class="section-title">🌍 Popular Real-World Series</h2>
+                <p class="section-subtitle">These are some of the motorsport disciplines most accurately replicated within the major sim racing titles.</p>
+                
+                <div class="motorsport-grid">
+                    
+                    <div class="motorsport-card">
+                        <h3>GT World Challenge</h3>
+                        <span class="category">Endurance / Sprint Racing</span>
+                        <p>The global standard for GT3 and GT4 racing. Perfectly replicated in Assetto Corsa Competizione (ACC), offering tight, multi-class competition.</p>
+                    </div>
+                    
+                    <div class="motorsport-card">
+                        <h3>Formula 1 / IndyCar</h3>
+                        <span class="category">Open Wheel / High Downforce</span>
+                        <p>The pinnacle of open-wheel racing. Simulators offer the only safe environment to understand the immense downforce and speed of these machines.</p>
+                    </div>
+                    
+                    <div class="motorsport-card">
+                        <h3>NASCAR Oval</h3>
+                        <span class="category">Stock Car / Drafting</span>
+                        <p>The unique world of stock car racing, where drafting and tire management are key. iRacing hosts many official NASCAR licenses and virtual series.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to Start Driving?</h2>
+                <p>Whether virtual or real, every racing journey starts with preparation. Contact us to get personalized advice on your next steps.</p>
+                <a href="contact.html" class="cta-button">
+                    Get Personalized Advice
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <img src="SRF.jpg" alt="SRF Logo">
+                <p>&copy; 2025 Sim Racing Foundations. All Rights Reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="software.html">Software</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="community.html">Community</a>
+                <a href="realmotorsports.html">Motorsports</a> <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('mobile-menu-button').onclick = function() {
+            this.classList.toggle('open');
+            document.getElementById('mobile-menu').classList.toggle('open');
+        };
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('#mobile-menu a').forEach(item => {
+            item.addEventListener('click', () => {
+                document.getElementById('mobile-menu-button').classList.remove('open');
+                document.getElementById('mobile-menu').classList.remove('open');
+            });
+        });
+    </script>
+
+</body>
+</html>
